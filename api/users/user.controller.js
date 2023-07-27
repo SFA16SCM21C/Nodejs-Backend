@@ -10,7 +10,7 @@ module.exports = {
         create(body, (err, results) => {
             if (err) {
                 console.log(err);
-                return res.status().json({
+                return res.status(500).json({
                     sucess: 0,
                     message: "Db connection error"
                 });

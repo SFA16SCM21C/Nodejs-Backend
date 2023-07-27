@@ -3,7 +3,14 @@ const pool = require("../../config/database");
 module.exports = {
     create: (data, callBack) => {
         pool.query(
-            `insert into registration(firstName, lastName, gender, email, password, number) values(?,?,?,?,?,?)`,
+            `INSERT INTO registration (
+                firstName, 
+                lastName, 
+                gender, 
+                email, 
+                password, 
+                number
+            ) VALUES (?,?,?,?,?,?);`,
             [
                 data.first_name,
                 data.last_name,
@@ -21,5 +28,73 @@ module.exports = {
                 }
             }
         );
-    }
+    },
+    getUsers: callBack => {
+        pool.query(
+                    `SELECT 
+                        id, 
+                        firstName, 
+                        lastName, 
+                        gender, 
+                        email, 
+                        number 
+                    FROM registration;`,
+            [],
+            (error, results, fields) => {
+                if (error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    getUsers: (id, callBack) => {
+        pool.query(
+                `SELECT 
+                    id, 
+                    firstName, 
+                    lastName, 
+                    gender, 
+                    email, 
+                    number 
+                FROM 
+                    registration 
+                WHERE id = ?;`,
+            [id],
+            (error, results, fields) => {
+                if (error) {
+                    return callBack(error);
+                }
+                return callBack(null, results[0]);
+            }
+        );
+    },
+    updateUser: (data, callBack) => {
+        pool.query(
+                `UPDATE registration
+                 SET firstName = ?,
+                    lastName = ?,
+                    gender = ?,
+                    email = ?,
+                    password = ?,
+                    number = ?
+                 WHERE id = ?;`,
+            [
+                data.first_name,
+                data.last_name,
+                data.gender,
+                data.email,
+                data.password,
+                data.number
+            ],
+            (error, results, fields) => {
+                if (error) {
+                    return callBack(error);
+                }
+                else {
+                    return callBack(null, results);
+                }
+            }
+        );
+    },
 };
