@@ -111,7 +111,16 @@ module.exports = {
                 const jsontoken = sign({ result: results }, "qwe1234", {
                     expiresIn: "1h"
                 });
-                return res.json();
+                return res.json({
+                    success: 1,
+                    message: "login successfully",
+                    token:  jsontoken
+                });
+            } else {
+                return res.json({
+                    success: 0,
+                    data: "Invalid email or password"
+                });
             }
         });
     }
