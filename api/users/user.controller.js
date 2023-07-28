@@ -1,6 +1,7 @@
 const { create, getUsers, getUserById, updateUser, deleteUser } = require("./user.service");
 
-const { genSaltSync, hashSync } = require("bcrypt");
+const { genSaltSync, hashSync, compareSync } = require("bcrypt");
+
 
 module.exports = {
     createUser: (req, res) => {
