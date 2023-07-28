@@ -64,7 +64,7 @@ module.exports = {
             if (!results) {
                 return res.json({
                     success: 0,
-                    message: "Failed to update"
+                    message: "Failed to update user"
                 })
             }
             return res.json({
