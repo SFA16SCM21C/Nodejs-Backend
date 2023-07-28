@@ -97,7 +97,7 @@ module.exports = {
             }
         );
     },
-    deleteUsere: (data, callBack) => {
+    deleteUser: (data, callBack) => {
         pool.query(
                 `DELETE FROM registration WHERE id = ?;
                 `,
