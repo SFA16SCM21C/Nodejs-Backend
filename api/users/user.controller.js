@@ -1,7 +1,7 @@
-const { create, getUsers, getUserById, updateUser, deleteUser } = require("./user.service");
+const { create, getUsers, getUserById, updateUser, deleteUser, getUserByUserEmail } = require("./user.service");
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
-
+const { sign } = require("jsonwebtoken");
 
 module.exports = {
     createUser: (req, res) => {
@@ -91,6 +91,28 @@ module.exports = {
                 success: 1,
                 data: "user deleted successfully"
             });
+        });
+    },
+    login: (req, res) => {
+        const body = req.body;
+        getUserByUserEmail(body.email, (err, results) => {
+            if (err) {
+                console.log(err);
+            }
+            if (!results) {
+                return res.jsoin({
+                    success: 0,
+                    data: "Invalid email or password"
+                });
+            }
+            const results = compareSync(body.password, results.password);
+            if (result) {
+                results.password = undefined;
+                const jsontoken = sign({ result: results }, "qwe1234", {
+                    expiresIn: "1h"
+                });
+                return res.json();
+            }
         });
     }
 };
