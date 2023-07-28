@@ -48,7 +48,7 @@ module.exports = {
             }
         );
     },
-    getUsers: (id, callBack) => {
+    getUserById: (id, callBack) => {
         pool.query(
                 `SELECT 
                     id, 
