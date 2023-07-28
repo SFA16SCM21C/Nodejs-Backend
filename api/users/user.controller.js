@@ -61,6 +61,12 @@ module.exports = {
                 console.log(err);
                 return;
             }
+            if (!results) {
+                return res.json({
+                    success: 0,
+                    message: "Failed to update"
+                })
+            }
             return res.json({
                 success: 1,
                 data: "updaetd sucessfully"
