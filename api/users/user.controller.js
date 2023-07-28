@@ -1,4 +1,4 @@
-const { create } = require("./user.service");
+const { create, getUsers, getUserById, updateUser, deleteUser } = require("./user.service");
 
 const { genSaltSync, hashSync } = require("bcrypt");
 
@@ -20,5 +20,70 @@ module.exports = {
                 data: results
             });
         })
+    },
+    getUserById: (req, res) => {
+        const id = req.params.id;
+        getUserById(id, (err, results) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            if (!results) {
+                return res.json({
+                    success: 0,
+                    message: "Record not found"
+                })
+            }
+            return res.json({
+                success: 1,
+                data: results
+            });
+        });
+    },
+    getUsers: (req, res) => {
+        getUsers(() => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            return res.json({
+                success: 1,
+                data: results
+            });
+        });
+    },
+    updateUsers: (req, res) => {
+        const body = req.body;
+        const salt = genSaltSync(10);
+        body.password = hashSync(body.password, salt);
+        updateUser(body, (err, results) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            return res.json({
+                success: 1,
+                data: "updaetd sucessfully"
+            });
+        });
+    },
+    deleteUser: () => {
+        const data = req.body;
+        deleteUser(data, (err, results) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            if (!results) {
+                return res.json({
+                    success: 0,
+                    message: "Record not found"
+                })
+            }
+            return res.json({
+                success: 1,
+                data: "user deleted successfully"
+            });
+        });
     }
 };
